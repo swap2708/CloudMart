@@ -1,7 +1,8 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional
+
 from pydantic import BaseModel, ConfigDict, Field
+
 from app.models.order import OrderStatus
 
 
@@ -27,10 +28,10 @@ class OrderItemResponse(BaseModel):
     id: int
     order_id: int
     product_id: int
-    product_name: Optional[str] = None
+    product_name: str | None = None
     quantity: int
     unit_price: Decimal
-    subtotal: Optional[Decimal] = None
+    subtotal: Decimal | None = None
 
     model_config = ConfigDict(from_attributes=True)
 

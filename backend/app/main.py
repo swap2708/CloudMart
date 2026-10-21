@@ -1,10 +1,11 @@
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
+
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+
 from app.config import settings
-from app.database import Base, engine
 from app.routers import (
     admin_router,
     auth_router,
@@ -17,7 +18,7 @@ from app.services.notification_service import notification_service
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
     """Application startup and shutdown lifespan management."""
     # Register in-process notification event handlers
     notification_service.register_handlers()

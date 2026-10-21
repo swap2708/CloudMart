@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -18,7 +18,7 @@ class CartItemDetail(BaseModel):
     price: Decimal
     quantity: int
     subtotal: Decimal
-    image_url: Optional[str] = None
+    image_url: str | None = None
     in_stock: bool
     available_stock: int
 

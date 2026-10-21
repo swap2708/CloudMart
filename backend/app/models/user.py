@@ -1,7 +1,10 @@
 import enum
-from datetime import datetime, timezone
-from sqlalchemy import Boolean, Column, DateTime, Enum as SAEnum, Integer, String
+from datetime import UTC, datetime
+
+from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy import Enum as SAEnum
 from sqlalchemy.orm import relationship
+
 from app.database import Base
 
 
@@ -29,13 +32,13 @@ class User(Base):
     is_active = Column(Boolean, default=True, nullable=False)
     created_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(UTC),
         nullable=False,
     )
     updated_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
-        onupdate=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
         nullable=False,
     )
 

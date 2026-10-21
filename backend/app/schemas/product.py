@@ -1,6 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional
+
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -8,10 +8,10 @@ class ProductBase(BaseModel):
     """Shared product attributes."""
 
     name: str = Field(..., min_length=1, max_length=255)
-    description: Optional[str] = None
+    description: str | None = None
     price: Decimal = Field(..., gt=0, decimal_places=2)
     category: str = Field(..., min_length=1, max_length=100)
-    image_url: Optional[str] = None
+    image_url: str | None = None
     is_active: bool = True
 
 
@@ -24,12 +24,12 @@ class ProductCreate(ProductBase):
 class ProductUpdate(BaseModel):
     """Payload to partially update product details."""
 
-    name: Optional[str] = Field(default=None, min_length=1, max_length=255)
-    description: Optional[str] = None
-    price: Optional[Decimal] = Field(default=None, gt=0, decimal_places=2)
-    category: Optional[str] = Field(default=None, min_length=1, max_length=100)
-    image_url: Optional[str] = None
-    is_active: Optional[bool] = None
+    name: str | None = Field(default=None, min_length=1, max_length=255)
+    description: str | None = None
+    price: Decimal | None = Field(default=None, gt=0, decimal_places=2)
+    category: str | None = Field(default=None, min_length=1, max_length=100)
+    image_url: str | None = None
+    is_active: bool | None = None
 
 
 class InventoryResponse(BaseModel):

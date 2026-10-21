@@ -1,6 +1,8 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from sqlalchemy import Boolean, Column, DateTime, Integer, Numeric, String, Text
 from sqlalchemy.orm import relationship
+
 from app.database import Base
 
 
@@ -18,13 +20,13 @@ class Product(Base):
     is_active = Column(Boolean, default=True, nullable=False)
     created_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(UTC),
         nullable=False,
     )
     updated_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
-        onupdate=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
         nullable=False,
     )
 

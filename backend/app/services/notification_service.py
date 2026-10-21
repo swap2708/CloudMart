@@ -1,5 +1,6 @@
 import logging
 from typing import Any
+
 from app.utils.events import event_bus
 
 logger = logging.getLogger("cloudmart.notifications")

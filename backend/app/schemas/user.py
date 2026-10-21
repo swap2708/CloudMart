@@ -1,7 +1,8 @@
-import re
 from datetime import datetime
-from typing import Annotated, Optional
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from typing import Annotated
+
+from pydantic import BaseModel, ConfigDict, Field
+
 from app.models.user import UserRole
 
 EMAIL_PATTERN = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
@@ -30,8 +31,8 @@ class UserLogin(BaseModel):
 class UserUpdate(BaseModel):
     """Request payload for profile updates."""
 
-    full_name: Optional[str] = Field(default=None, min_length=1, max_length=255)
-    password: Optional[str] = Field(default=None, min_length=6, max_length=128)
+    full_name: str | None = Field(default=None, min_length=1, max_length=255)
+    password: str | None = Field(default=None, min_length=6, max_length=128)
 
 
 class UserResponse(UserBase):

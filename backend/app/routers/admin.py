@@ -1,8 +1,10 @@
 from decimal import Decimal
-from typing import Any, Optional
+from typing import Any
+
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy import func
 from sqlalchemy.orm import Session
+
 from app.database import get_db
 from app.dependencies import require_admin
 from app.models.inventory import Inventory
@@ -30,7 +32,7 @@ router = APIRouter(prefix="/admin", tags=["Admin"])
     summary="List all customer orders across platform (Admin only)",
 )
 def get_all_orders(
-    status_filter: Optional[OrderStatus] = Query(default=None, alias="status"),
+    status_filter: OrderStatus | None = Query(default=None, alias="status"),
     skip: int = Query(default=0, ge=0),
     limit: int = Query(default=50, ge=1, le=100),
     db: Session = Depends(get_db),
@@ -139,7 +141,7 @@ def get_dashboard_metrics(
     """Admin dashboard summary displaying platform health, total revenue, and inventory alerts."""
     total_orders = db.query(func.count(Order.id)).scalar() or 0
     total_users = db.query(func.count(User.id)).scalar() or 0
-    total_products = db.query(func.count(Product.id)).filter(Product.is_active == True).scalar() or 0
+    total_products = db.query(func.count(Product.id)).filter(Product.is_active.is_(True)).scalar() or 0
 
     revenue_val = (
         db.query(func.sum(Order.total_amount))

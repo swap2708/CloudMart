@@ -1,5 +1,5 @@
-from datetime import datetime, timedelta, timezone
-from typing import Any, Optional
+from datetime import UTC, datetime, timedelta
+from typing import Any
 
 # Passlib 1.7.4 compatibility patch for bcrypt >= 4.0.0
 try:
@@ -24,6 +24,7 @@ except ImportError:
 
 from jose import JWTError, jwt
 from passlib.context import CryptContext
+
 from app.config import settings
 
 # Passlib CryptContext using bcrypt hashing scheme
@@ -42,14 +43,14 @@ def get_password_hash(password: str) -> str:
 
 def create_access_token(
     data: dict[str, Any],
-    expires_delta: Optional[timedelta] = None,
+    expires_delta: timedelta | None = None,
 ) -> str:
     """Generate a signed JWT access token with an expiration time."""
     to_encode = data.copy()
     if expires_delta:
-        expire = datetime.now(timezone.utc) + expires_delta
+        expire = datetime.now(UTC) + expires_delta
     else:
-        expire = datetime.now(timezone.utc) + timedelta(
+        expire = datetime.now(UTC) + timedelta(
             minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES,
         )
 
@@ -62,7 +63,7 @@ def create_access_token(
     return encoded_jwt
 
 
-def decode_access_token(token: str) -> Optional[dict[str, Any]]:
+def decode_access_token(token: str) -> dict[str, Any] | None:
     """Decode and validate a signed JWT access token.
 
     Returns payload dict or None if invalid or expired.

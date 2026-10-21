@@ -1,6 +1,8 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from sqlalchemy import CheckConstraint, Column, DateTime, ForeignKey, Integer
 from sqlalchemy.orm import relationship
+
 from app.database import Base
 
 
@@ -20,8 +22,8 @@ class Inventory(Base):
     quantity = Column(Integer, default=0, nullable=False)
     updated_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
-        onupdate=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
         nullable=False,
     )
 

@@ -1,7 +1,8 @@
 from decimal import Decimal
-from typing import Optional
+
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.orm import Session
+
 from app.database import get_db
 from app.dependencies import require_admin
 from app.models.user import User
@@ -17,10 +18,10 @@ router = APIRouter(prefix="/products", tags=["Products"])
     summary="List products with filtering and pagination",
 )
 def list_products(
-    category: Optional[str] = Query(default=None, description="Filter by category name"),
-    min_price: Optional[Decimal] = Query(default=None, ge=0, description="Minimum price filter"),
-    max_price: Optional[Decimal] = Query(default=None, ge=0, description="Maximum price filter"),
-    search: Optional[str] = Query(default=None, description="Search keyword in name or description"),
+    category: str | None = Query(default=None, description="Filter by category name"),
+    min_price: Decimal | None = Query(default=None, ge=0, description="Minimum price filter"),
+    max_price: Decimal | None = Query(default=None, ge=0, description="Maximum price filter"),
+    search: str | None = Query(default=None, description="Search keyword in name or description"),
     skip: int = Query(default=0, ge=0, description="Pagination offset"),
     limit: int = Query(default=50, ge=1, le=100, description="Pagination page size"),
     db: Session = Depends(get_db),

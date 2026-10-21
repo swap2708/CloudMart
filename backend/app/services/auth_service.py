@@ -1,6 +1,7 @@
-from typing import Optional
+
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
+
 from app.models.user import User, UserRole
 from app.schemas.user import UserCreate
 from app.utils.security import get_password_hash, verify_password
@@ -10,17 +11,17 @@ class AuthService:
     """Service handling user registration, authentication, and retrieval."""
 
     @staticmethod
-    def get_user_by_email(db: Session, email: str) -> Optional[User]:
+    def get_user_by_email(db: Session, email: str) -> User | None:
         """Fetch user by unique email address."""
         return db.query(User).filter(User.email == email.lower().strip()).first()
 
     @staticmethod
-    def get_user_by_id(db: Session, user_id: int) -> Optional[User]:
+    def get_user_by_id(db: Session, user_id: int) -> User | None:
         """Fetch user by primary key id."""
         return db.query(User).filter(User.id == user_id).first()
 
     @staticmethod
-    def authenticate_user(db: Session, email: str, password: str) -> Optional[User]:
+    def authenticate_user(db: Session, email: str, password: str) -> User | None:
         """Authenticate user by email and plaintext password."""
         user = AuthService.get_user_by_email(db, email)
         if not user:

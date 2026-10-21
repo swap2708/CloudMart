@@ -1,8 +1,9 @@
 from decimal import Decimal
-from typing import Optional
+
 from fastapi import HTTPException, status
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
+
 from app.models.inventory import Inventory
 from app.models.product import Product
 from app.schemas.product import ProductCreate, ProductResponse, ProductUpdate
@@ -31,11 +32,11 @@ class ProductService:
     @staticmethod
     def get_products(
         db: Session,
-        category: Optional[str] = None,
-        min_price: Optional[Decimal] = None,
-        max_price: Optional[Decimal] = None,
-        search: Optional[str] = None,
-        is_active: Optional[bool] = True,
+        category: str | None = None,
+        min_price: Decimal | None = None,
+        max_price: Decimal | None = None,
+        search: str | None = None,
+        is_active: bool | None = True,
         skip: int = 0,
         limit: int = 100,
     ) -> list[ProductResponse]:

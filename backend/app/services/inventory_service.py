@@ -1,6 +1,7 @@
-from typing import Optional
+
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
+
 from app.models.inventory import Inventory
 from app.models.product import Product
 
@@ -9,7 +10,7 @@ class InventoryService:
     """Service managing warehouse stock counts separately from product catalog data."""
 
     @staticmethod
-    def get_inventory_by_product_id(db: Session, product_id: int) -> Optional[Inventory]:
+    def get_inventory_by_product_id(db: Session, product_id: int) -> Inventory | None:
         """Fetch inventory entry for a given product ID."""
         return db.query(Inventory).filter(Inventory.product_id == product_id).first()
 

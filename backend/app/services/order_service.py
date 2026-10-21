@@ -1,7 +1,8 @@
 from decimal import Decimal
-from typing import Optional
+
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
+
 from app.models.inventory import Inventory
 from app.models.order import Order, OrderItem, OrderStatus
 from app.models.product import Product
@@ -208,7 +209,7 @@ class OrderService:
     @staticmethod
     def get_all_orders(
         db: Session,
-        status_filter: Optional[OrderStatus] = None,
+        status_filter: OrderStatus | None = None,
         skip: int = 0,
         limit: int = 100,
     ) -> list[OrderResponse]:

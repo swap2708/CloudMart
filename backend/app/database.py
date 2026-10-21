@@ -1,6 +1,8 @@
 from collections.abc import Generator
+
 from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker, Session
+from sqlalchemy.orm import Session, declarative_base, sessionmaker
+
 from app.config import settings
 
 # Configure connection parameters based on dialect
@@ -26,7 +28,7 @@ SessionLocal = sessionmaker(
 Base = declarative_base()
 
 
-def get_db() -> Generator[Session, None, None]:
+def get_db() -> Generator[Session]:
     """Dependency that yields a database session and ensures it is properly closed."""
     db = SessionLocal()
     try:

@@ -1,4 +1,4 @@
-from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -12,6 +12,6 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     """Claims decoded from JWT payload."""
 
-    user_id: Optional[int] = None
-    email: Optional[str] = None
-    role: Optional[str] = None
+    user_id: int | None = None
+    email: str | None = None
+    role: str | None = None

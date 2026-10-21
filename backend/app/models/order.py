@@ -1,7 +1,10 @@
 import enum
-from datetime import datetime, timezone
-from sqlalchemy import Column, DateTime, Enum as SAEnum, ForeignKey, Integer, Numeric
+from datetime import UTC, datetime
+
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, Numeric
+from sqlalchemy import Enum as SAEnum
 from sqlalchemy.orm import relationship
+
 from app.database import Base
 
 
@@ -36,13 +39,13 @@ class Order(Base):
     total_amount = Column(Numeric(10, 2), nullable=False, default=0.00)
     created_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(UTC),
         nullable=False,
     )
     updated_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
-        onupdate=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
         nullable=False,
     )
 
