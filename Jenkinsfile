@@ -31,33 +31,23 @@ pipeline {
             }
         }
 
+
         stage('Backend Lint') {
             steps {
-                script {
-                    if (isUnix()) {
-                        sh 'pip install ruff'
-                        sh 'ruff check backend/app'
-                    } else {
-                        bat 'pip install ruff'
-                        bat 'ruff check backend/app'
-                    }
-                }
+                sh 'python3 -m venv .jenkins-venv'
+                sh '.jenkins-venv/bin/python -m pip install --upgrade pip'
+                sh '.jenkins-venv/bin/python -m pip install ruff'
+                sh '.jenkins-venv/bin/ruff check backend/app'
             }
         }
 
         stage('Backend Tests') {
             steps {
-                script {
-                    if (isUnix()) {
-                        sh 'pip install -r backend/requirements.txt -r backend/requirements-dev.txt'
-                        sh 'pytest backend/tests/ --cov=backend/app --junitxml=backend-test-results.xml -v'
-                    } else {
-                        bat 'pip install -r backend/requirements.txt -r backend/requirements-dev.txt'
-                        bat 'pytest backend/tests/ --cov=backend/app --junitxml=backend-test-results.xml -v'
-                    }
-                }
+                sh '.jenkins-venv/bin/python -m pip install -r backend/requirements.txt -r backend/requirements-dev.txt'
+                sh '.jenkins-venv/bin/python -m pytest backend/tests/ --cov=backend/app --junitxml=backend-test-results.xml -v'
             }
         }
+
 
         stage('Build Docker Images') {
             steps {
