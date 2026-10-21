@@ -1,30 +1,102 @@
+# ==============================================================================
+# CloudMart - Root .gitignore
+# ==============================================================================
+
 # Python
 __pycache__/
 *.py[cod]
-.venv/
+*$py.class
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
 venv/
-.env
+.venv/
+ENV/
+env.bak/
+venv.bak/
 
-# Node
+# Python packaging & distribution
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+nosetests.xml
+
+# Node & Frontend
 node_modules/
 dist/
+dist-ssr/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.npm/
 
-# Environment files
+# Environment variables & secrets
 .env
 .env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
 
-# Database
-*.db
+# Database & Persistent Data
 *.sqlite
 *.sqlite3
+*.db
+cloudmart_postgres_data/
 
-# Docker
+# Docker & Logs
 *.log
+logs/
+docker-compose.override.yml
 
-# IDE
-.vscode/
+# IDEs & Text Editors
 .idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
 
-# OS
+# Operating System Files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+[Dd]esktop.ini
+
+# Kubernetes local scratch
+k8s/secret.yaml
+kubeconfig
+*.kubeconfig

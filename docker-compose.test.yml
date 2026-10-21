@@ -1,0 +1,50 @@
+services:
+  postgres-test:
+    image: postgres:16-alpine
+    container_name: cloudmart_postgres_test
+    environment:
+      POSTGRES_USER: cloudmart
+      POSTGRES_PASSWORD: changeme_dev_only
+      POSTGRES_DB: cloudmart_test
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cloudmart -d cloudmart_test"]
+      interval: 2s
+      timeout: 3s
+      retries: 10
+      start_period: 2s
+    networks:
+      - cloudmart_test_network
+
+  backend-test:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cloudmart_backend_test
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres-test
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: cloudmart
+      POSTGRES_PASSWORD: changeme_dev_only
+      POSTGRES_DB: cloudmart_test
+      DATABASE_URL: postgresql://cloudmart:changeme_dev_only@postgres-test:5432/cloudmart_test
+      SECRET_KEY: test-secret-key-for-running-tests-only-not-for-production
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+      ADMIN_EMAIL: admin@cloudmart.dev
+      ADMIN_PASSWORD: changeme_admin_dev_only
+      ENVIRONMENT: testing
+    volumes:
+      - ./backend:/app
+    command: pytest tests/ --cov=app -v
+    networks:
+      - cloudmart_test_network
+
+networks:
+  cloudmart_test_network:
+    name: cloudmart_test_network
+    driver: bridge
